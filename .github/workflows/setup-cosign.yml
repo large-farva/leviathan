@@ -1,0 +1,48 @@
+name: Setup Cosign Keys
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  generate_cosign_keys:
+    name: Generate and Store Cosign Keys
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.8.1
+
+      - name: Generate Cosign key pair
+        run: |
+          cosign generate-key-pair --output-key cosign.key --output-pub cosign.pub
+
+      - name: Upload private key as GitHub Secret
+        uses: actions/github-script@v7
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs').promises;
+            const privateKey = await fs.readFile('cosign.key', 'utf8');
+            await github.rest.actions.createOrUpdateRepoSecret({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              secret_name: 'SIGNING_SECRET',
+              encrypted_value: Buffer.from(privateKey).toString('base64')
+            });
+
+      - name: Commit public key to repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add cosign.pub
+          git commit -m "Add cosign public key"
+          git push
