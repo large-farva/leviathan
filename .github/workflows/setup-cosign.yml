@@ -21,7 +21,7 @@ jobs:
 
       - name: Generate Cosign key pair
         run: |
-          COSIGN_PASSWORD="" cosign generate-key-pair cosign.key cosign.pub
+          COSIGN_PASSWORD="" cosign generate-key-pair file://cosign.key
 
       - name: Upload private key as GitHub Secret
         uses: actions/github-script@v7
@@ -41,6 +41,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add cosign.pub
+          git add cosign.key.pub
           git commit -m "Add cosign public key"
           git push
