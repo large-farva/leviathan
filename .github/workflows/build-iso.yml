@@ -1,5 +1,4 @@
----
-name: Build ISOs
+name: Build ISO
 
 on:
   workflow_dispatch:
@@ -43,17 +42,16 @@ jobs:
       id-token: write
 
     steps:
-      - name: lower case the image registry in case of any capitalization
+      - name: Lowercase the image registry
         run: |
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
-      
+
       - name: Install dependencies
         if: inputs.platform == 'arm64'
         run: |
           set -x
           sudo apt update -y
-          sudo apt install -y \
-            podman
+          sudo apt install -y podman
 
       - name: Maximize build space
         if: inputs.platform != 'arm64'
@@ -85,7 +83,7 @@ jobs:
           retention-days: 0
           compression-level: 0
           overwrite: true
-      
+
       - name: Upload to S3
         if: inputs.upload-to-s3 == true && github.event_name != 'pull_request'
         shell: bash
