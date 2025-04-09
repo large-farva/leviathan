@@ -61,6 +61,8 @@ jobs:
             org.opencontainers.image.url=https://github.com/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
             org.opencontainers.image.vendor=${{ github.repository_owner }}
             org.opencontainers.image.version=latest
+            org.opencontainers.image.base.name=fedora
+            org.opencontainers.image.base.version=41
             io.artifacthub.package.deprecated=false
             io.artifacthub.package.keywords=bootc,ublue,universal-blue
             io.artifacthub.package.license=Apache-2.0
