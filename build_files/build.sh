@@ -2,23 +2,30 @@
 
 set -ouex pipefail
 
-### Install packages
+# dnf5 install -y
 
-# Packages can be installed from any enabled yum repo on the image.
-# RPMfusion repos are available by default in ublue main images
-# List of rpmfusion packages can be found here:
-# https://mirrors.rpmfusion.org/mirrorlist?path=free/fedora/updates/39/x86_64/repoview/index.html&protocol=https&redirect=1
+# Remove list
+#     gnome-help
+#     ryujinx
 
-# this installs a package from fedora repos
-dnf5 install -y tmux 
+rpm-ostree override remove \
+    waydroid \
+    waydroid-selinux \
+    input-remapper \
+    lutris
 
-# Use a COPR Example:
-#
-# dnf5 -y copr enable ublue-os/staging
-# dnf5 -y install package
-# Disable COPRs so they don't end up enabled on the final image:
-# dnf5 -y copr disable ublue-os/staging
+flatpak uninstall -y --system \
+    com.supermodel3.Supermodel \
+    org.DolphinEmu.dolphin-emu \
+    org.ppsspp.PPSSPP \
+    github.shiiion.primehack \
+    org.libretro.RetroArch \
+    net.kuribo64.melonDS \
+    org.duckstation.DuckStation \
+    org.scummvm.ScummVM \
+    app.xemu.xemu
 
-#### Example for enabling a System Unit File
+flatpak install -y --system \
+    com.bitwarden.desktop
 
 systemctl enable podman.socket
