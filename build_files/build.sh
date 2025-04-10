@@ -23,7 +23,7 @@ flatpak uninstall -y --system \
     net.kuribo64.melonDS \
     org.duckstation.DuckStation \
     org.scummvm.ScummVM \
-    app.xemu.xemu
+    app.xemu.xemu || true
 
 flatpak install -y --system \
     com.bitwarden.desktop
