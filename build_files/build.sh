@@ -9,7 +9,7 @@ echo ">>> Starting Leviathan Image Edits"
 rpm-ostree override remove \
     waydroid \
     waydroid-selinux \
-    input-remapper || true
+    distrobox || true
 
 # -------------------------------------
 # Remove Preinstalled Flatpak Apps
@@ -29,28 +29,13 @@ flatpak uninstall -y --system \
 # Install Essential Host Packages
 # -------------------------------------
 rpm-ostree install \
-    gnome-tweaks \
-    gnome-extensions-app \
-    chrome-gnome-shell \
-    gnome-shell-extension-dash-to-dock \
-    gnome-shell-extension-user-theme \
-    gamemode \
-    mangohud \
-    steam-devices \
-    vulkan-tools \
-    xpadneo-dkms \
-    zsh \
-    git \
-    neovim \
-    htop \
-    tilix \
-    file-roller \
-    baobab \
-    lm_sensors
+    gnome-shell-extension-dash-to-panel
 
 # -------------------------------------
 # Flatpak App Installations
 # -------------------------------------
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install --system flathub page.tesk.Refine -y
 flatpak install -y --system \
     com.bitwarden.desktop
 
