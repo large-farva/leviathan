@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-
-# I changed the pipefall orddr.
 set -euxo pipefail
 
 echo ">>> Starting Leviathan Image Edits"
@@ -43,7 +41,7 @@ flatpak install -y --system \
     com.bitwarden.desktop \
     dev.qwery.AddWater || true
 
-echo "✓ Installed Discord, Bitwarden, Add Water via Flatpak"
+echo "✓ Installed VS Code, Discord, Bitwarden & Add Water via Flatpak"
 
 # -------------------------------------
 # Remove Unwanted Extensions
@@ -71,32 +69,27 @@ rpm-ostree override install \
     gnome-shell-extension-unblank \
     gnome-shell-extension-vitals
 
-echo "✓ Installed Dash to Dock, Dash to Panel, App Hider, Extension List, Tweaks System Menu, Unblank, and Vitals extensions"
+echo "✓ Installed Dash to Dock, Dash to Panel, App Hider, Extension List, Tweaks System Menu, Unblank & Vitals"
 
 # -------------------------------------
-# Theming, Icons, and Wallpaper
+# Theming, Icons & Wallpaper
 # -------------------------------------
-mkdir -p /etc/dconf/db/local.d
-mkdir -p /usr/share/themes \
-         /usr/share/icons
+mkdir -p /etc/dconf/db/local.d \
+         /usr/share/themes \
+         /usr/share/icons \
+         /usr/share/backgrounds
 
-cp -r /ctx/build_files/themes/Orchis-Grey-Dark \
-    /usr/share/themes/
+cp -r /ctx/build_files/themes/Orchis-Grey-Dark      /usr/share/themes/
+cp -r /ctx/build_files/icons/Tela-Nord              /usr/share/icons/
+cp -r /ctx/build_files/icons/Bibata-Modern-Ice      /usr/share/icons/
+cp     /ctx/build_files/backgrounds/black-white.jpg /usr/share/backgrounds/
 
-cp -r /ctx/build_files/icons/Tela-Nord \
-    /usr/share/icons/
-
-cp -r /ctx/build_files/icons/Bibata-Modern-Ice \
-    /usr/share/icons/
-
-cp -r /ctx/build_files/backgrounds/black-white.jpg \
-    /usr/share/backgrounds/
+echo "✓ Copied themes, icons & wallpaper"
 
 # -------------------------------------
 # Dconf Configuration
 # -------------------------------------
 cat <<'EOF' > /etc/dconf/db/local.d/00_leviathan_theme
-
 [org/gnome/desktop/interface]
 gtk-theme='Orchis-Grey-Dark'
 icon-theme='Tela-Nord'
@@ -108,7 +101,7 @@ clock-show-date=true
 [org/gnome/desktop/wm/preferences]
 theme='Orchis-Grey-Dark'
 focus-mode='click'
-auro-raise=true
+auto-raise=true
 
 [org/gnome/desktop/background]
 picture-uri='file:///usr/share/backgrounds/black-white.jpg'
@@ -125,18 +118,17 @@ favorite-apps=[
   'gnome-software.desktop',
   'gnome-control-center.desktop'
 ]
-
 enabled-extensions=[
-    'dash-to-panel@jderose9.github.com',
-    'app-hider@lynith.dev',
-    'extension-list@tu.berry',
-    'Vitals@CoreCoding.com',
-    'appindicatorsupport@rgcjonas.gmail.com',
-    'blur-my-shell@aunetx',
-    'caffeine@patapon.info',
-    'just-perfection-desktop@just-perfection',
-    'logomenu@aryan_k',
-    'user-theme@gnome-shell-extensions.gcampax.github.com'
+  'dash-to-panel@jderose9.github.com',
+  'app-hider@lynith.dev',
+  'extension-list@tu.berry',
+  'vitals@CoreCoding.com',
+  'appindicatorsupport@rgcjonas.gmail.com',
+  'blur-my-shell@aunetx',
+  'caffeine@patapon.info',
+  'just-perfection-desktop@just-perfection',
+  'logomenu@aryan_k',
+  'user-theme@gnome-shell-extensions.gcampax.github.com'
 ]
 
 # ─── Dash-to-Panel defaults ───
@@ -150,7 +142,7 @@ click-action='minimize'
 middle-click-action='launch-new-instance'
 shift-click-action='switch-or-launch'
 intellihide-fixed=true
-auto-hide=false
+autohide=false
 multimonitor=false
 running-indicator-style='DOTS'
 
@@ -172,13 +164,10 @@ click-action='minimize'
 [org/gnome/nautilus/preferences]
 show-hidden-files=true
 sort-directories-first=true
-
 EOF
 
 dconf update
 
-echo "✓ Applied theming and dconf settings"
-
-systemctl enable podman.socket
+echo "✓ Applied theming & dconf settings"
 
 echo ">>> Leviathan Edits Complete"
