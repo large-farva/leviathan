@@ -67,7 +67,9 @@ echo "✓ Removed unwanted GNOME Shell extensions"
 # -------------------------------------
 # Install Extensions
 # -------------------------------------
-rpm-ostree install \
+dnf5 config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-41/ublue-os-staging.repo
+
+dnf5 -y install \
     gnome-shell-extension-dash-to-dock \
     gnome-shell-extension-dash-to-panel \
     gnome-shell-extension-app-hider \
@@ -76,7 +78,7 @@ rpm-ostree install \
     gnome-shell-extension-unblank \
     gnome-shell-extension-vitals
 
-echo "✓ Installed Dash to Dock, Dash to Panel, App Hider, Extension List, Tweaks System Menu, Unblank & Vitals"
+echo "✓ Installed Gnome Shell extensions"
 
 # -------------------------------------
 # Theming, Icons & Wallpaper
