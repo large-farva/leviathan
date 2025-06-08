@@ -41,7 +41,8 @@ echo "✓ Removed unwanted preinstalled Flatpaks"
 # -------------------------------------
 # Install Flatpaks
 # -------------------------------------
-flatpak install -y --system \
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install --system --no-sandbox -y \
     com.visualstudio.code \
     com.discordapp.Discord \
     com.bitwarden.desktop \
