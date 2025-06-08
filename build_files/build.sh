@@ -67,7 +67,8 @@ echo "✓ Removed unwanted GNOME Shell extensions"
 # -------------------------------------
 # Install Extensions
 # -------------------------------------
-dnf5 config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-41/ublue-os-staging.repo
+curl -s https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-41/ublue-os-staging.repo \
+    -o /etc/yum.repos.d/ublue-os-staging.repo
 
 dnf5 -y install \
     gnome-shell-extension-dash-to-dock \
