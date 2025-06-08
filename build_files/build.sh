@@ -4,7 +4,7 @@ set -euxo pipefail
 echo ">>> Starting Leviathan Image Edits"
 
 # -------------------------------------
-# Remove Unnecessary Packages
+# Remove Unwanted Packages
 # -------------------------------------
 rpm-ostree override remove \
     waydroid \
@@ -13,11 +13,17 @@ rpm-ostree override remove \
 echo "✓ Removed Waydroid and Waydroid SELinux packages"
 
 # -------------------------------------
+# Prepare Flatpak Environment
+# -------------------------------------
+export FLATPAK_DISABLE_SANDBOX=1
+mkdir -p /var/roothome
+export HOME=/var/roothome
+
+# -------------------------------------
 # Remove Unwanted Preinstalled Flatpaks
 # -------------------------------------
 flatpak uninstall -y --system \
-    io.github.nokse22.Exhibit \
-    leopoldluley.Clapgrep \
+    de.leopoldluley.Clapgrep \
     com.ranfdev.DistroShelf \
     io.github.radiolamp.mangojuice \
     com.supermodel3.Supermodel \
@@ -60,7 +66,7 @@ echo "✓ Removed unwanted GNOME Shell extensions"
 # -------------------------------------
 # Install Extensions
 # -------------------------------------
-rpm-ostree override install \
+rpm-ostree install \
     gnome-shell-extension-dash-to-dock \
     gnome-shell-extension-dash-to-panel \
     gnome-shell-extension-app-hider \
