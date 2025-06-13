@@ -39,10 +39,10 @@ flatpak uninstall -y --system \
 echo "✓ Removed unwanted preinstalled Flatpaks"
 
 # -------------------------------------
-# Install Flatpaks
+# Install Flatpaks (disable sandbox properly)
 # -------------------------------------
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-FLATPAK_DISABLE_SANDBOX=1 flatpak install --system -y \
+flatpak --disable-sandbox install --system -y \
     com.visualstudio.code \
     com.discordapp.Discord \
     com.bitwarden.desktop \
@@ -65,9 +65,8 @@ rpm-ostree override remove \
 echo "✓ Removed unwanted GNOME Shell extensions"
 
 # -------------------------------------
-# Install GNOME Shell Extensions
+# Install GNOME Shell Extensions (Fedora 42 staging)
 # -------------------------------------
-# Use Fedora 42 staging repo for uBlue OS
 curl -s \
   https://copr.fedorainfracloud.org/coprs/ublue-os/staging/repo/fedora-42/ublue-os-staging.repo \
   -o /etc/yum.repos.d/ublue-os-staging.repo
@@ -91,6 +90,10 @@ mkdir -p /etc/dconf/db/local.d \
          /usr/share/icons \
          /usr/share/backgrounds
 
+# DEBUG: list what's in build_files/themes directory
+echo ">> Listing /ctx/build_files/themes:" >&2
+ls -la /ctx/build_files/themes >&2
+
 cp -r /ctx/build_files/themes/Orchis-Grey-Dark      /usr/share/themes/
 cp -r /ctx/build_files/icons/Tela-Nord              /usr/share/icons/
 cp -r /ctx/build_files/icons/Bibata-Modern-Ice      /usr/share/icons/
@@ -103,7 +106,6 @@ echo "✓ Copied themes, icons & wallpaper"
 # -------------------------------------
 cat <<'EOF' > /etc/dconf/db/local.d/00_leviathan_theme
 [org/gnome/desktop/interface]
-# Themes
 gtk-theme='Orchis-Grey-Dark'
 icon-theme='Tela-Nord'
 cursor-theme='Bibata-Modern-Ice'
@@ -144,7 +146,6 @@ enabled-extensions=[
   'user-theme@gnome-shell-extensions.gcampax.github.com'
 ]
 
-# Dash-to-Panel Defaults
 [org/gnome/shell/extensions/dash-to-panel]
 panel-position='BOTTOM'
 panel-fixed=true
@@ -153,7 +154,6 @@ icon-size=32
 show-apps-at-top=true
 click-action='minimize'
 
-# Dash-to-Dock Defaults
 [org/gnome/shell/extensions/dash-to-dock]
 dock-position='BOTTOM'
 dock-fixed-size=true
@@ -170,5 +170,4 @@ EOF
 dconf update
 
 echo "✓ Applied theming & dconf settings"
-
 echo ">>> Leviathan Edits Complete"

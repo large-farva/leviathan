@@ -1,5 +1,5 @@
 name = "leviathan"
-version = "41"
+version = "42"
 
 [customizations.installer.kickstart]
 contents = """
