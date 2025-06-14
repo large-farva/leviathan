@@ -85,19 +85,19 @@ echo "✓ Installed GNOME Shell extensions"
 # -------------------------------------
 # Theming, Icons & Wallpaper
 # -------------------------------------
-mkdir -p /etc/dconf/db/local.d \
-         /usr/share/themes \
-         /usr/share/icons \
-         /usr/share/backgrounds
+mkdir -p /etc/dconf/db/local.d/ \
+         /usr/share/themes/ \
+         /usr/share/icons/ \
+         /usr/share/backgrounds/
 
 # DEBUG: list what's in build_files/themes directory
-echo ">> Listing /ctx/build_files/themes:" >&2
-ls -la /ctx/build_files/themes >&2
+echo ">> Listing /ctx/build_files/themes/:" >&2
+ls -la /ctx/build_files/themes/ >&2
 
-cp -r /ctx/build_files/themes/Orchis-Grey-Dark      /usr/share/themes/
-cp -r /ctx/build_files/icons/Tela-Nord              /usr/share/icons/
-cp -r /ctx/build_files/icons/Bibata-Modern-Ice      /usr/share/icons/
-cp     /ctx/build_files/backgrounds/black-white.jpg /usr/share/backgrounds/
+cp -r /ctx/build_files/themes/Orchis-Grey-Dark/       /usr/share/themes/
+cp -r /ctx/build_files/icons/Tela-Nord/               /usr/share/icons/
+cp -r /ctx/build_files/icons/Bibata-Modern-Ice/       /usr/share/icons/
+cp    /ctx/build_files/backgrounds/black-white.jpg    /usr/share/backgrounds/
 
 echo "✓ Copied themes, icons & wallpaper"
 
