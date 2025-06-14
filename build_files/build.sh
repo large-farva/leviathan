@@ -15,9 +15,9 @@ echo "✓ Removed Waydroid and Waydroid SELinux packages"
 # -------------------------------------
 # Prepare Flatpak Environment
 # -------------------------------------
-export FLATPAK_DISABLE_SANDBOX=1
-mkdir -p /var/roothome
-export HOME=/var/roothome
+# export FLATPAK_DISABLE_SANDBOX=1
+# mkdir -p /var/roothome
+# export HOME=/var/roothome
 
 # -------------------------------------
 # Remove Unwanted Preinstalled Flatpaks
@@ -42,7 +42,7 @@ echo "✓ Removed unwanted preinstalled Flatpaks"
 # Install Flatpaks (disable sandbox properly)
 # -------------------------------------
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak --disable-sandbox install --system -y \
+flatpak install --system -y \
     com.visualstudio.code \
     com.discordapp.Discord \
     com.bitwarden.desktop \
