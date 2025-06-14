@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-echo ">>> Applying dconf defaults"
-
 /usr/bin/install -m 644 /dev/stdin /etc/dconf/db/local.d/00_leviathan <<'EOF'
 [org/gnome/desktop/interface]
 cursor-size=24
@@ -41,5 +39,3 @@ sort-directories-first=true
 EOF
 
 dconf update
-
-echo "✓ dconf settings applied"

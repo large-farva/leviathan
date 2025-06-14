@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-echo ">>> Uninstalling default Flatpaks"
 flatpak uninstall -y --system \
     io.github.radiolamp.mangojuice \
     com.supermodel3.Supermodel \
@@ -13,5 +12,3 @@ flatpak uninstall -y --system \
     org.duckstation.DuckStation \
     org.scummvm.ScummVM \
     app.xemu.xemu || true
-
-echo "✓ Removed preinstalled Flatpaks"
