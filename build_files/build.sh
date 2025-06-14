@@ -83,44 +83,17 @@ dnf5 install -y --skip-unavailable \
 echo "✓ Installed GNOME Shell extensions"
 
 # -------------------------------------
-# Theming, Icons & Wallpaper
-# -------------------------------------
-mkdir -p /etc/dconf/db/local.d/ \
-         /usr/share/themes/ \
-         /usr/share/icons/ \
-         /usr/share/backgrounds/
-
-# DEBUG: list what's in build_files/themes directory
-echo ">> Listing /ctx/build_files/themes/:" >&2
-ls -la /ctx/build_files/themes/ >&2
-
-cp -r /ctx/build_files/themes/Orchis-Grey-Dark/       /usr/share/themes/
-cp -r /ctx/build_files/icons/Tela-Nord/               /usr/share/icons/
-cp -r /ctx/build_files/icons/Bibata-Modern-Ice/       /usr/share/icons/
-cp    /ctx/build_files/backgrounds/black-white.jpg    /usr/share/backgrounds/
-
-echo "✓ Copied themes, icons & wallpaper"
-
-# -------------------------------------
 # Dconf Configuration
 # -------------------------------------
 cat <<'EOF' > /etc/dconf/db/local.d/00_leviathan_theme
 [org/gnome/desktop/interface]
-gtk-theme='Orchis-Grey-Dark'
-icon-theme='Tela-Nord'
-cursor-theme='Bibata-Modern-Ice'
 cursor-size=24
 color-scheme='prefer-dark'
 clock-show-date=true
 
 [org/gnome/desktop/wm/preferences]
-theme='Orchis-Grey-Dark'
 focus-mode='click'
 auto-raise=true
-
-[org/gnome/desktop/background]
-picture-uri='file:///usr/share/backgrounds/black-white.jpg'
-picture-options='zoom'
 
 [org/gnome/shell]
 enable-hot-corners=false
@@ -157,8 +130,9 @@ click-action='minimize'
 [org/gnome/shell/extensions/dash-to-dock]
 dock-position='BOTTOM'
 dock-fixed-size=true
+dash-max-icon-size=48
 intellihide=true
-background-opacity=0.9
+background-opacity=0.8
 running-indicator-style='DOTS'
 click-action='minimize'
 
