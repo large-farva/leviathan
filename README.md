@@ -17,7 +17,7 @@ If you want to install the image on a new system download and install Bazzite IS
 
 ## Package Management
 
-GUI apps can be found as Flatpaks in the Discover app or [FlatHub](https://flathub.org/) and installed with `flatpak install ...`.
+GUI apps can be found as Flatpaks in the Gnome Software app or [FlatHub](https://flathub.org/) and installed with `flatpak install ...`.
 
 CLI apps are available from [Homebrew](https://formulae.brew.sh/) using `brew install ...`.
 
