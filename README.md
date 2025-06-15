@@ -9,13 +9,13 @@ This image is most likely not for many folks.
 - Built on Fedora 42
 - Image built on **[Bazzite](https://bazzite.gg/)** (NVIDIA variant)
 - GNOME 48
-- Vyukt using [uBlue's image-template](https://github.com/ublue-os/image-template)
+- Built using [uBlue's image-template](https://github.com/ublue-os/image-template)
 
 
 ## Installation Methods
 
 ### Bootc Install (On an existing system)
-Install directly via 'bootc':
+Install directly via `bootc`:
 
 ```bash
 sudo bootc switch --enforce-container-sigpolicy ghcr.io/large-farva/leviathan:latest
@@ -27,7 +27,7 @@ Burn or boot from the [Leviathan ISO](https://github.com/large-farva/leviathan/a
 - Custom ```iso.toml``` with support for:
     - Disk and user setup
     - Localization and timezone
-Based on bootc-image-builder for portable and reproducible installs.
+Powered by [bootc-image-builder](https://github.com/containers/bootc-image-builder) for portable and reproducible installs.
 
 ## Modularity & Customizations
 This repo uses **modular build** scripts:
@@ -57,4 +57,4 @@ Leviathan is made possible by:
 - [Bazzite](https://bazzite.gg/)
 
 
-This README format was partially stolen from [AmyOS](https://github.com/astrovm/amyos/tree/main)
+README format inspired by [AmyOS](https://github.com/astrovm/amyos/tree/main).
