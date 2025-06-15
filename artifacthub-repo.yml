@@ -1,4 +1,11 @@
-repositoryID: large-farva
-owners: Sebastian Vencill
-  - name: Sebastian Vencill
+repositoryID: 0e374518-2fa2-4a23-bf14-42e54c91bc8c
+name: leviathan
+displayName: Leviathan
+description: >
+  Leviathan is a custom Bazzite image with focused GNOME enhancements and practical defaults for personal desktop use.
+type: container
+url: https://github.com/large-farva/leviathan
+logoImageId: ~
+maintainers:
+  - name: large-farva
     email: sebastianvencill@gmail.com
