@@ -1,4 +1,4 @@
-name: Build ISO
+name: Build Leviathan ISO
 
 on:
   workflow_dispatch:

@@ -1,30 +1,60 @@
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/leviathan)](https://artifacthub.io/packages/search?repo=leviathan) [![Leviathan Image Build Status](https://github.com/large-farva/leviathan/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/large-farva/leviathan/actions/workflows/build.yml) [![ISO Build Status](https://github.com/large-farva/leviathan/actions/workflows/build_iso.yml/badge.svg?branch=main)](https://github.com/large-farva/leviathan/actions/workflows/build_iso.yml)
 
 # Leviathan
-A custom Fedora Atomic image for my wife and I. Built for gaming and daily use.
+**Leviathan** is a custom [Fedora Atomic](https://fedoraproject.org/atomic-desktops/) image built for personal use by my wife and I — optimized for **gaming**, **daily use**, and tailored **GNOME enhancements**.
+
+This image is most likely not for many folks.
 
 ## Base System
 - Built on Fedora 42
-- Uses [Bazzite](https://bazzite.gg/) as the base image
+- Image built on **[Bazzite](https://bazzite.gg/)** (NVIDIA variant)
 - GNOME 48
-- Optimized for Nvidia.
+- Vyukt using [uBlue's image-template](https://github.com/ublue-os/image-template)
 
-## Install
+
+## Installation Methods
+
+### Bootc Install (On an existing system)
+Install directly via 'bootc':
+
 ```bash
 sudo bootc switch --enforce-container-sigpolicy ghcr.io/large-farva/leviathan:latest
 ```
 
-If you want to install the image on a new system download and install Bazzite ISO first:
-<https://download.bazzite.gg/bazzite-stable-amd64.iso>
+### ISO Installer
+Burn or boot from the [Leviathan ISO](https://github.com/large-farva/leviathan/actions/workflows/build_iso.yml) (see artifacts in workflow runs):
+- Fully graphical Anaconda installer
+- Custom ```iso.toml``` with support for:
+    - Disk and user setup
+    - Localization and timezone
+Based on bootc-image-builder for portable and reproducible installs.
+
+## Modularity & Customizations
+This repo uses **modular build** scripts:
+
+| File                    | Purpose                                    |
+| ----------------------- | ------------------------------------------ |
+| `install_packages.sh`   | Adds Fedora/RPMFusion/COPR packages        |
+| `remove_packages.sh`    | Removes undesired packages (e.g. Waydroid) |
+| `install_flatpaks.sh`   | Installs Flatpaks (e.g. VSCode, Discord)   |
+| `remove_flatpaks.sh`    | Removes preinstalled Flatpaks              |
+| `install_extensions.sh` | Adds GNOME Shell extensions                |
+| `remove_extensions.sh`  | Removes bundled GNOME Shell extensions     |
+| `configure_dconf.sh`    | Sets UI behavior, extensions, layout       |
+
+All organized inside the ```build_files/``` directory.
 
 ## Package Management
+- **Flatpak:** GUI apps via [Flathub](https://flathub.org/) and GNOME Software.
+- **Homebrew:** CLI utilities with ```brew install ...```.
 
-GUI apps can be found as Flatpaks in the Gnome Software app or [FlatHub](https://flathub.org/) and installed with `flatpak install ...`.
-
-CLI apps are available from [Homebrew](https://formulae.brew.sh/) using `brew install ...`.
+## ArtifactHub Listing
+Find [Leviathan](https://artifacthub.io/packages/search?repo=leviathan) on ArtifactHub.
 
 ## Acknowledgments
+Leviathan is made possible by:
+- [Universal Blue Project](https://github.com/ublue-os)
+- [Bazzite](https://bazzite.gg/)
 
-This project is based on the [Universal Blue image template](https://github.com/ublue-os/image-template) and builds upon the excellent work of the Universal Blue community.
 
-This README format was stolen from [AmyOS](https://github.com/astrovm/amyos/tree/main)
+This README format was partially stolen from [AmyOS](https://github.com/astrovm/amyos/tree/main)
