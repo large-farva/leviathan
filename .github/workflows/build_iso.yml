@@ -1,4 +1,4 @@
-name: Build Disk Image
+name: Build ISO
 
 on:
   workflow_dispatch:
@@ -6,9 +6,8 @@ on:
     branches:
       - main
     paths:
-      - './disk_config/disk.toml'
       - './disk_config/iso.toml'
-      - './.github/workflows/build-disk.yml'
+      - './.github/workflows/build-iso.yml'
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
@@ -22,12 +21,8 @@ concurrency:
 
 jobs:
   build:
-    name: Build disk images
+    name: Build ISO
     runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        disk-type: ["qcow2", "anaconda-iso"]
     permissions:
       contents: read
       packages: read
@@ -38,10 +33,8 @@ jobs:
         run: |
           USER_UID=$(id -u)
           USER_GID=$(id -g)
-          DISK_TYPE=$(echo "${{ matrix.disk-type }}" | tr ' ' '-')
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >> ${GITHUB_ENV}
-          echo "DISK_TYPE=${DISK_TYPE}" >> ${GITHUB_ENV}
           echo "USER_UID=${USER_UID}" >> ${GITHUB_ENV}
           echo "USER_GID=${USER_GID}" >> ${GITHUB_ENV}
 
@@ -53,18 +46,18 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Build disk images
+      - name: Build ISO image
         id: build
         uses: osbuild/bootc-image-builder-action@main
         with:
           builder-image: ${{ env.BIB_IMAGE }}
-          config-file: ${{ matrix.disk-type == 'anaconda-iso' && './disk_config/iso.toml' || './disk_config/disk.toml' }}
+          config-file: ./disk_config/iso.toml
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
-          types: ${{ matrix.disk-type }}
+          types: anaconda-iso
           additional-args: --use-librepo=True
 
-      - name: Upload disk images and checksums
+      - name: Upload ISO artifact
         uses: actions/upload-artifact@v4
         with:
           path: ${{ steps.build.outputs.output-directory }}
