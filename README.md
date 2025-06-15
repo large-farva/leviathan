@@ -11,6 +11,9 @@ This image is most likely not for many folks.
 - GNOME 48
 - Built using [uBlue's image-template](https://github.com/ublue-os/image-template)
 
+## Features
+- Custom GNOME layout
+- Pruned Flatpak, RPM, and Gnome Extension bloat
 
 ## Installation Methods
 
@@ -22,6 +25,9 @@ sudo bootc switch --enforce-container-sigpolicy ghcr.io/large-farva/leviathan:la
 ```
 
 ### ISO Installer
+
+Update: The ISO sucks.
+
 Burn or boot from the [Leviathan ISO](https://github.com/large-farva/leviathan/actions/workflows/build_iso.yml) (see artifacts in workflow runs):
 - Fully graphical Anaconda installer
 - Custom ```iso.toml``` with support for:
