@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - './disk_config/iso.toml'
+      - './iso_config/iso.toml'
       - './.github/workflows/build-iso.yml'
 
 env:
