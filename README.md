@@ -1,3 +1,6 @@
+[![Leviathan Image Build Status](https://github.com/large-farva/leviathan/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/large-farva/leviathan/actions/workflows/build.yml)
+
+
 # Leviathan
 A custom Fedora Atomic image for my wife and I. Built for gaming and daily use.
 
