@@ -27,6 +27,7 @@ Burn or boot from the [Leviathan ISO](https://github.com/large-farva/leviathan/a
 - Custom ```iso.toml``` with support for:
     - Disk and user setup
     - Localization and timezone
+
 Powered by [bootc-image-builder](https://github.com/containers/bootc-image-builder) for portable and reproducible installs.
 
 ## Modularity & Customizations
