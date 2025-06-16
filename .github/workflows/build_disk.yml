@@ -57,22 +57,22 @@ jobs:
           types: anaconda-iso
           additional-args: --use-librepo=True
 
-      - name: Build VM Disks
-        id: build_disks
+      - name: Build QCOW2 Disk
+        id: build_qcow2
         uses: osbuild/bootc-image-builder-action@main
         with:
           builder-image: ${{ env.BIB_IMAGE }}
           config-file: ./disk_config/disk.toml
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
-          types: qcow2,raw
+          types: qcow2
           additional-args: --use-librepo=True --rootfs=ext4
 
       - name: Upload disk artifacts
         uses: actions/upload-artifact@v4
         with:
           name: disk-images
-          path: ${{ steps.build_disks.outputs.output-directory }}
+          path: ${{ steps.build_qcow2.outputs.output-directory }}
           if-no-files-found: error
           retention-days: 0
           compression-level: 0
