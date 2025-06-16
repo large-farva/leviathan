@@ -46,22 +46,33 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Build ISO & VM Disks
-        id: build
+      - name: Build ISO
+        id: build_iso
         uses: osbuild/bootc-image-builder-action@main
         with:
           builder-image: ${{ env.BIB_IMAGE }}
           config-file: ./disk_config/disk.toml
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
-          types: anaconda-iso,qcow2,raw
+          types: anaconda-iso
+          additional-args: --use-librepo=True
+
+      - name: Build VM Disks
+        id: build_disks
+        uses: osbuild/bootc-image-builder-action@main
+        with:
+          builder-image: ${{ env.BIB_IMAGE }}
+          config-file: ./disk_config/disk.toml
+          image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
+          chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
+          types: qcow2,raw
           additional-args: --use-librepo=True
 
       - name: Upload disk artifacts
         uses: actions/upload-artifact@v4
         with:
           name: disk-images
-          path: ${{ steps.build.outputs.output-directory }}
+          path: ${{ steps.build_disks.outputs.output-directory }}
           if-no-files-found: error
           retention-days: 0
           compression-level: 0
