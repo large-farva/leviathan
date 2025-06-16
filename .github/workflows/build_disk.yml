@@ -66,7 +66,7 @@ jobs:
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
           types: qcow2,raw
-          additional-args: --use-librepo=True
+          additional-args: --use-librepo=True --rootfs=ext4
 
       - name: Upload disk artifacts
         uses: actions/upload-artifact@v4
