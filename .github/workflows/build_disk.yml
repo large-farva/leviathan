@@ -23,6 +23,7 @@ jobs:
   build:
     name: Build Disk Artifacts
     runs-on: ubuntu-24.04
+    timeout-minutes: 360
     permissions:
       contents: read
       packages: read
@@ -31,12 +32,20 @@ jobs:
     steps:
       - name: Prepare environment
         run: |
+          set -euxo pipefail
           USER_UID=$(id -u)
           USER_GID=$(id -g)
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> $GITHUB_ENV
           echo "IMAGE_NAME=${IMAGE_NAME,,}" >> $GITHUB_ENV
           echo "USER_UID=${USER_UID}" >> $GITHUB_ENV
           echo "USER_GID=${USER_GID}" >> $GITHUB_ENV
+
+      - name: Free Runner Space
+        run: |
+          set -euxo pipefail
+          sudo apt-get clean
+          sudo rm -rf /home/runner/.cache/* /tmp/*
+          sudo rm -rf /var/lib/containers/storage/*
 
       - name: Maximize build space
         uses: ublue-os/remove-unwanted-software@cc0becac701cf642c8f0a6613bbdaf5dc36b259e
@@ -55,7 +64,9 @@ jobs:
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
           types: anaconda-iso
-          additional-args: --use-librepo=True
+          additional-args: |
+            --use-librepo=True
+            --log-level debug
 
       - name: Build QCOW2 Disk
         id: build_qcow2
@@ -66,7 +77,11 @@ jobs:
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
           types: qcow2
-          additional-args: --use-librepo=True --rootfs=ext4
+          additional-args: |
+            --use-librepo=True
+            --rootfs=ext4
+            --size=6GiB
+            --log-level debug
 
       - name: Upload disk artifacts
         uses: actions/upload-artifact@v4
