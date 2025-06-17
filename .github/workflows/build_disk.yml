@@ -1,4 +1,5 @@
-name: Build Leviathan Disk Images
+# .github/workflows/build_disk.yml
+name: Build Disk Artifacts
 
 on:
   workflow_dispatch:
@@ -6,14 +7,14 @@ on:
     branches:
       - main
     paths:
-      - './disk_config/disk.toml'
-      - './.github/workflows/build_disk.yml'
+      - 'disk_config/**'
+      - '.github/workflows/build_disk.yml'
 
 env:
   IMAGE_NAME: ${{ github.event.repository.name }}
-  IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
-  DEFAULT_TAG: "latest"
-  BIB_IMAGE: "ghcr.io/lorbuschris/bootc-image-builder:20250608"
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  DEFAULT_TAG: latest
+  BIB_IMAGE: ghcr.io/lorbuschris/bootc-image-builder:20250608
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
@@ -21,7 +22,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build Disk Artifacts
+    name: Build ISO & QCOW2
     runs-on: ubuntu-24.04
     timeout-minutes: 360
     permissions:
@@ -30,32 +31,47 @@ jobs:
       id-token: write
 
     steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
       - name: Prepare environment
+        shell: bash
         run: |
           set -euxo pipefail
           USER_UID=$(id -u)
           USER_GID=$(id -g)
           echo "IMAGE_REGISTRY=${IMAGE_REGISTRY,,}" >> $GITHUB_ENV
-          echo "IMAGE_NAME=${IMAGE_NAME,,}" >> $GITHUB_ENV
-          echo "USER_UID=${USER_UID}" >> $GITHUB_ENV
-          echo "USER_GID=${USER_GID}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=${IMAGE_NAME,,}"       >> $GITHUB_ENV
+          echo "USER_UID=${USER_UID}"             >> $GITHUB_ENV
+          echo "USER_GID=${USER_GID}"             >> $GITHUB_ENV
 
       - name: Free Runner Space
+        shell: bash
         run: |
           set -euxo pipefail
           sudo apt-get clean
           sudo rm -rf /home/runner/.cache/* /tmp/*
           sudo rm -rf /var/lib/containers/storage/*
 
+      - name: Show pre-build disk usage
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "=== df -h / ==="
+          df -h /
+          echo "=== df -h /home ==="
+          df -h /home
+          echo "=== lsblk ==="
+          lsblk
+          echo "=== du -sh /var/lib/containers/storage ==="
+          du -sh /var/lib/containers/storage || true
+
       - name: Maximize build space
         uses: ublue-os/remove-unwanted-software@cc0becac701cf642c8f0a6613bbdaf5dc36b259e
         with:
           remove-codeql: true
 
-      - name: Checkout source
-        uses: actions/checkout@v4
-
-      - name: Build ISO
+      - name: Build ISO image
         id: build_iso
         uses: osbuild/bootc-image-builder-action@main
         with:
@@ -66,7 +82,7 @@ jobs:
           types: anaconda-iso
           additional-args: "--use-librepo=True --log-level debug"
 
-      - name: Build QCOW2 Disk
+      - name: Build QCOW2 disk image
         id: build_qcow2
         uses: osbuild/bootc-image-builder-action@main
         with:
@@ -75,14 +91,14 @@ jobs:
           image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.DEFAULT_TAG }}
           chown: ${{ env.USER_UID }}:${{ env.USER_GID }}
           types: qcow2
-          additional-args: "--use-librepo=True --rootfs=ext4 --size=6GiB --log-level debug"
+          rootfs: ext4
+          additional-args: "--use-librepo=True --log-level debug"
 
       - name: Upload disk artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: disk-images
+          name: disk-artifacts
           path: ${{ steps.build_qcow2.outputs.output-directory }}
           if-no-files-found: error
-          retention-days: 0
-          compression-level: 0
+          retention-days: 30
           overwrite: true
