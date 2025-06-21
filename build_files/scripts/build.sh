@@ -3,6 +3,8 @@ set -euxo pipefail
 
 SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+export SCRIPTS_DIR="(cd "$SCRIPTS_DIR/ ../.." && pwd)"
+
 # 1. remove un-wanted packages
 "$SCRIPTS_DIR/remove_packages.sh"
 
@@ -23,3 +25,6 @@ SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # 7. apply dconf settings
 "$SCRIPTS_DIR/configure_dconf.sh"
+
+# 8. apply branding
+"$SCRIPTS_DIR/branding.sh"
