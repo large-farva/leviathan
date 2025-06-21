@@ -1,7 +1,6 @@
 FROM scratch AS ctx
 
 COPY build_files/scripts /scripts
-
 COPY branding /branding
 
 FROM ghcr.io/ublue-os/bazzite-gnome-nvidia:latest as leviathan
