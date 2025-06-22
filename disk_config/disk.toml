@@ -20,3 +20,9 @@ disable = [
   "org.fedoraproject.Anaconda.Modules.Runtime",
   "org.fedoraproject.Anaconda.Modules.Payloads"
 ]
+
+[[filesystems]]
+mountpoint  = "/"
+device      = "root"
+format      = "btrfs"
+label       = "Leviathan"
