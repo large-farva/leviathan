@@ -12,6 +12,6 @@ export SRCROOT="$(cd "${SCRIPTS_DIR}/../.." && pwd)"
 "$SCRIPTS_DIR/install_flatpaks.sh"
 "$SCRIPTS_DIR/install_extensions.sh"
 
-"$SCRIPTS_DIR/branding.sh"
+"$SCRIPTS_DIR/theming.sh"
 
 "$SCRIPTS_DIR/configure_dconf.sh"
