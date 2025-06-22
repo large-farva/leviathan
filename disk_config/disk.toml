@@ -1,5 +1,6 @@
 [customizations.installer.kickstart]
 contents = """
+distro=bazzite-42
 %post
 bootc switch --mutate-in-place --transport registry ghcr.io/large-farva/leviathan:latest
 btrfs filesystem label / "Leviathan"
