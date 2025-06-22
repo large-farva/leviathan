@@ -13,4 +13,4 @@ RUN --mount=type=bind,from=ctx,source=/scripts,target=/ctx/scripts,readonly \
     /ctx/scripts/build.sh && \
     ostree container commit
 
-RUN bootcontainer lint
+RUN bootc container lint
