@@ -1,5 +1,5 @@
 # .github/workflows/build_disk.yml
-name: Build Disk Artifacts
+name: Build Leviathan ISO & VM
 
 on:
   workflow_dispatch:
