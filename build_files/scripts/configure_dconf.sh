@@ -7,6 +7,7 @@ cursor-size=24
 color-scheme='prefer-dark'
 clock-show-date=true
 icon-theme='Tela-nord'
+gtk-theme='Leviathan'
 
 [org/gnome/desktop/background]
 picture-uri='file:///usr/share/backgrounds/Leviathan.png'
@@ -23,26 +24,14 @@ enabled-extensions=['dash-to-panel@jderose9.github.com','app-hider@lynith.dev','
 [org/gnome/shell/extensions/user-theme]
 name='Leviathan'
 
-[org/gnome/shell/extensions/dash-to-panel]
-panel-position='BOTTOM'
-panel-fixed=true
-panel-size=36
-icon-size=32
-show-apps-at-top=true
-click-action='minimize'
-
-[org/gnome/shell/extensions/dash-to-dock]
-dock-position='BOTTOM'
-dock-fixed-size=true
-dash-max-icon-size=48
-intellihide=true
-background-opacity=0.8
-running-indicator-style='DOTS'
-click-action='minimize'
-
 [org/gnome/nautilus/preferences]
 show-hidden-files=true
 sort-directories-first=true
+EOF
+
+/usr/bin/install -m 644 /dev/stdin /etc/dconf/db/gdm.d/00_gdm_background <<'EOF'
+[org/gnome/desktop/background]
+picture-uri='file:///usr/share/gnome-shell/theme/background.png'
 EOF
 
 dconf update
