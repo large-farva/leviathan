@@ -13,6 +13,8 @@ export SRCROOT="$(cd "${SCRIPTS_DIR}/../.." && pwd)"
 "$SCRIPTS_DIR/install_extensions.sh"
 
 "$SCRIPTS_DIR/theming.sh"
+
 "$SCRIPTS_DIR/configure_os-release.sh"
 "$SCRIPTS_DIR/configure_plymouth.sh"
+"$SCRIPTS_DIR/configure_grub.sh"
 "$SCRIPTS_DIR/configure_dconf.sh"
