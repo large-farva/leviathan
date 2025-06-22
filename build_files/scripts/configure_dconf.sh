@@ -9,7 +9,7 @@ clock-show-date=true
 icon-theme='Tela-nord'
 
 [org/gnome/desktop/background]
-picture-uri='file:///usr/share/backgrounds/black-windows.jpg'
+picture-uri='file:///usr/share/backgrounds/Leviathan.png'
 
 [org/gnome/desktop/wm/preferences]
 focus-mode='click'
