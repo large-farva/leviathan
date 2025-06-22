@@ -1,5 +1,12 @@
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/leviathan)](https://artifacthub.io/packages/search?repo=leviathan) [![Leviathan Image Build Status](https://github.com/large-farva/leviathan/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/large-farva/leviathan/actions/workflows/build.yml) [![Build Leviathan Disk Images](https://github.com/large-farva/leviathan/actions/workflows/build_disk.yml/badge.svg?branch=main)](https://github.com/large-farva/leviathan/actions/workflows/build_disk.yml)
 
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/large-farva/leviathan/refs/heads/main/theming/plymouth/watermark.png">
+    <img alt="Leviathan Logo" src="https://raw.githubusercontent.com/large-farva/leviathan/refs/heads/main/theming/plymouth/watermark.png" width="200">
+  </picture>
+</div>
+
 # Leviathan
 **Leviathan** is a custom [Fedora Atomic](https://fedoraproject.org/atomic-desktops/) image built for personal use by my wife and I — optimized for **gaming**, **daily use**, and tailored **GNOME enhancements**.
 
@@ -13,16 +20,21 @@ This image is most likely not for many folks.
 
 ## Features
 - Custom GNOME layout
-- Pruned Flatpak, RPM, and Gnome Extension bloat
+- Custom Theming
+- Pruned wallpapers, Flatpaks, RPM/DNF, and Gnome Extensions
+- Modular build scripts for easy tweaks
 
 ## Installation Methods
 
-### Bootc Install (On an existing system)
+### Bootc "Container" Install
+On any rpm-ostree host (Fedora Silverblue, Bazzite, etc.)
+
 Install directly via `bootc`:
 
 ```bash
 sudo bootc switch --enforce-container-sigpolicy ghcr.io/large-farva/leviathan:latest
 ```
+This swaps your OS in-place to the Leviathan container image.
 
 ### ISO Installer
 
@@ -36,20 +48,24 @@ Burn or boot from the [Leviathan ISO](https://github.com/large-farva/leviathan/a
     - Disk and user setup
     - Localization and timezone
 
-Powered by [bootc-image-builder](https://github.com/containers/bootc-image-builder) for portable and reproducible installs.
+Powered by [bootc-image-builder](https://github.com/containers/bootc-image-builder).
 
 ## Modularity & Customizations
 This repo uses **modular build** scripts:
 
-| File                    | Purpose                                    |
-| ----------------------- | ------------------------------------------ |
-| `install_packages.sh`   | Adds Fedora/RPMFusion/COPR packages        |
-| `remove_packages.sh`    | Removes undesired packages (e.g. Waydroid) |
-| `install_flatpaks.sh`   | Installs Flatpaks (e.g. VSCode, Discord)   |
-| `remove_flatpaks.sh`    | Removes preinstalled Flatpaks              |
-| `install_extensions.sh` | Adds GNOME Shell extensions                |
-| `remove_extensions.sh`  | Removes bundled GNOME Shell extensions     |
-| `configure_dconf.sh`    | Sets UI behavior, extensions, layout       |
+| File                      | Purpose                                         |
+| ------------------------- | ----------------------------------------------- |
+| `remove_packages.sh`      | Prune unwanted packages                         |
+| `remove_flatpaks.sh`      | Remove some default Flatpaks                    |
+| `remove_extensions.sh`    | Strip bundled GNOME Shell extensions            |
+| `install_packages.sh`     | Add some system packages                        |
+| `install_flatpaks.sh`     | Add a few Flatpaks my wife and I use            |
+| `install_extensions.sh`   | Add preferred Gnome Shell extensions            |
+| `theming.sh`              | Deploy backgrounds, icons, GTK & Shell themes   |
+| `configure_os-release.sh` | Override `/etc/os-release` with custom branding |
+| `configure_plymouth.sh`   | Appy custom boot splash screen                  |
+| `configure_gdm.sh`        | Install GDM shell CSS & login background        |
+| `configure_dconf.sh`      | Set GNOME & GDM dconf defaults                  |
 
 All organized inside the ```build_files/``` directory.
 
@@ -66,4 +82,4 @@ Leviathan is made possible by:
 - [Bazzite](https://bazzite.gg/)
 
 
-README format inspired by [AmyOS](https://github.com/astrovm/amyos/tree/main).
+README inspired by [AmyOS](https://github.com/astrovm/amyos/tree/main).
