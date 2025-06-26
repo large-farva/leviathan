@@ -9,40 +9,41 @@ jobs:
     name: List Installed Components
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/ublue-os/bazzite-gnome-nvidia:latest
+      image: ghcr.io/large-farva/leviathan:latest
+      # omit credentials if the image is public
 
     steps:
-      - name: List all RPM packages
+      - name: Install jq
+        run: |
+          dnf install -y jq
+
+      - name: List RPM packages
         run: |
           rpm -qa --qf '%{NAME}-%{VERSION}-%{RELEASE}\n' \
-            | sort > rpm-packages.txt
+            | sort > dnf-packages.txt
 
       - name: List rpm-ostree layered packages
         run: |
-          rpm-ostree status \
-            | sed -n '/LayeredPackages:/,/^$/p' \
-            | tail -n +2 \
-            | sed 's/^[[:space:]]*//' \
+          rpm-ostree status --json \
+            | jq -r '.deployments[0].layeredPackages[]?' \
             | sort > ostree-layered-packages.txt
 
       - name: List Flatpak apps
         run: |
-          flatpak list --app --columns=application \
+          flatpak list --system --app --columns=application \
             | sort > flatpaks.txt
 
-      - name: List enabled GNOME Shell extensions
+      - name: List system GNOME Shell extensions
         run: |
-          dconf read /org/gnome/shell/enabled-extensions \
-            | sed "s/[][]//g; s/'//g; s/,/\\n/g" \
-            | sed '/^\s*$/d' \
+          ls /usr/share/gnome-shell/extensions \
             | sort > gnome-extensions.txt
 
-      - name: Upload all lists as artifact
+      - name: Upload all lists
         uses: actions/upload-artifact@v4
         with:
-          name: installed-lists
+          name: installed-components
           path: |
-            rpm-packages.txt
+            dnf-packages.txt
             ostree-layered-packages.txt
             flatpaks.txt
             gnome-extensions.txt
