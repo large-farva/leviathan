@@ -7,5 +7,8 @@ type: container
 url: https://github.com/large-farva/leviathan
 logoImageId: ~
 maintainers:
-  - name: large-farva
+  - name: Sebastian Vencill
+    displayName: Sebastian Vencill
+    githubUsername: large-farva
+    avatarUrl: https://avatars.githubusercontent.com/u/120078124?s=200&v=4
     email: sebastianvencill@gmail.com

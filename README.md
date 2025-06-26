@@ -40,7 +40,8 @@ This swaps your OS in-place to the Leviathan container image.
 
 **Update:** The ISO sucks. \
 
-It would get stuck on a grey screen upon installation, after the Anaconda installation selections. I tried to fix it, but it's just failing now. \
+It would get stuck on a grey screen upon installation after the Anaconda installation selections. \
+I tried to fix it, but it's just failing now. \
 Just install Bazzite and rebase if you want to try it out.
 
 Burn or boot from the [Leviathan ISO](https://github.com/large-farva/leviathan/actions/workflows/build_iso.yml) (see artifacts in workflow runs):
