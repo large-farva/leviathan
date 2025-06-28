@@ -2,5 +2,7 @@
 set -euxo pipefail
 
 dnf5 install -y \
-    cosign \
-    cascadia-mono-nf-fonts || true
+    cosign || true
+
+ dnf install  -y \
+    adwaita-fonts-all || true
