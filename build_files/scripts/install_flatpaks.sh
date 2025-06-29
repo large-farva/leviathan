@@ -9,4 +9,7 @@ flatpak install --system -y \
     com.discordapp.Discord \
     com.bitwarden.desktop \
     dev.qwery.AddWater \
-    com.spotify.Client || true
+    com.spotify.Client \
+    io.gitlab.adhami3310.Impression \
+    de.haeckerfelix.Fragments \
+    me.iepure.devtoolbox || true

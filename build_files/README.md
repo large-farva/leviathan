@@ -17,17 +17,17 @@ The main orchestrator is `build.sh`, which runs:
 
 ## Script Overview
 
-| Script                   | Purpose                                                          |
-|--------------------------|------------------------------------------------------------------|
-| `build.sh`               | Main entrypoint — executes all other scripts in sequence         |
-| `remove_packages.sh`     | Removes unwanted RPMs                                            |
-| `remove_flatpaks.sh`     | Removes unwanted Flatpaks                                        |
-| `remove_extensions.sh`   | Removes undesired GNOME Shell extensions                         |
-| `install_packages.sh`    | Installs system RPM packages (fonts, CLI tools, etc.)            |
-| `install_flatpaks.sh`    | Installs Flatpak applications                                    |
-| `install_extensions.sh`  | Installs preferred GNOME Shell extensions                        |
-| `theming.sh`             | Installs wallpapers, icon themes, and GTK/Shell themes           |
-| `configure_dconf.sh`     | Applies GNOME desktop layout, favorites, and behavior settings   |
+| Script                   | Purpose                                                                 |
+|--------------------------|-------------------------------------------------------------------------|
+| `build.sh`               | Main entrypoint — executes all other scripts in sequence                |
+| `remove_packages.sh`     | Prune unwannted packages.                                               |
+| `remove_flatpaks.sh`     | Remove preinstalled Flatpaks                                            |
+| `remove_extensions.sh`   | Remove undesired GNOME Shell extensions                                 |
+| `install_packages.sh`    | Install system RPM packages                                             |
+| `install_flatpaks.sh`    | Install Flatpak applications                                            |
+| `install_extensions.sh`  | Install preferred GNOME Shell extensions                                |
+| `theming.sh`             | Install wallpapers, icon themes, and GTK/Shell themes                   |
+| `configure_dconf.sh`     | Apply dconf defaults for GNOME desktop                                  |
 
 ## Editing Tips
 
