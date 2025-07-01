@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+
+dnf5 install -y \
+    bcc \
+    bpftop \
+    cockpit \
+    cockpit-bridge \
+    cockpit-machines \
+    cockpit-networkmanager \
+    cockpit-ostree \
+    cockpit-podman \
+    cockpit-selinux \
+    cockpit-storaged \
+    cockpit-system \
+    code \
+    containerd.io \
+    docker-buildx-plugin \
+    edk2-ovmf \
+    flatpak-builder \
+    genisoimage \
+    incus \
+    incus-agent \
+    iotop \
+    kcli \
+    libvirt \
+    libvirt-nss \
+    lxc \
+    osbuild-selinux \
+    p7zip \
+    p7zip-plugins \
+    podman-bootc \
+    podman-compose \
+    podman-docker \
+    podman-machine \
+    podman-tui \
+    podmansh \
+    powerline-fonts \
+    qemu \
+    qemu-char-spice \
+    qemu-device-display-virtio-gpu \
+    qemu-device-display-virtio-vga \
+    qemu-device-usb-redirect \
+    qemu-img \
+    qemu-system-x86-core \
+    qemu-user-binfmt \
+    qemu-user-static \
+    steam \
+    sushi \
+    tiptop \
+    virt-manager \
+    virt-v2v \
+    virt-viewer || true
