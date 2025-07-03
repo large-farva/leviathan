@@ -95,7 +95,7 @@ jobs:
       - name: Install Cosign for Signing
         uses: sigstore/cosign-installer@v3
 
-      - name: Sign OCI Images with Cosign
+      - name: Sign OCI Images
         run: |
           IMAGE_FULL="${{ env.IMAGE_REGISTRY }}/${{ matrix.flavor.name }}"
           echo "Signing image $IMAGE_FULL with tags:"
