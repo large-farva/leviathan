@@ -1,18 +1,26 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-BUILD_ROOT="$(cd "$(dirname "$0")" && pwd)"
-FLAVOR="${FLAVOR:-leviathan}"
-FLAVOR_DIR="$BUILD_ROOT/build_files/$FLAVOR"
-export REPO_FILES_DIR="$BUILD_ROOT/repo_files"
+SCRIPT_PATH="$(readlink -f "$0")"
+SCRIPT_DIR="$(dirname "$SCRIPT_PATH")"
+
+BUILD_FILES_DIR="${SCRIPT_DIR}/build_files"
+
+: "${FLAVOR:?Environment variable FLAVOR must be set to one of your flavor dirs}"
+FLAVOR_DIR="${BUILD_FILES_DIR}/${FLAVOR}"
+SHARED_DIR="${BUILD_FILES_DIR}/shared"
 
 if [ ! -d "$FLAVOR_DIR" ]; then
-  echo "Error: Flavor directory '$FLAVOR_DIR' not found!" >&2
+  echo "ERROR: no such flavor directory: $FLAVOR_DIR" >&2
   exit 1
 fi
 
-echo "Running build for flavor: $FLAVOR"
+for script in "$SHARED_DIR"/*.sh; do
+  echo "==> running shared: $(basename "$script")"
+  bash "$script"
+done
 
-for scr in "$FLAVOR_DIR"/*.sh; do
-  [ -x "$scr" ] && "$scr"
+for script in "$FLAVOR_DIR"/*.sh; do
+  echo "==> running $FLAVOR: $(basename "$script")"
+  bash "$script"
 done

@@ -1,10 +1,10 @@
-name: Build Leviathan Container Image
+name: Build Leviathan Container Images
 on:
   pull_request:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * 0'  # 12:00am UTC every Sunday
+    - cron: '0 0 * * 0'
   push:
     branches:
       - main
@@ -14,19 +14,17 @@ on:
 
 env:
   IMAGE_NAME: "${{ github.event.repository.name }}"
-  IMAGE_DESC: "Personal Bazzite based image."
+  IMAGE_DESC: "Personal Bazzite and Bluefin based images."
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"
   ARTIFACTHUB_LOGO_URL: "https://avatars.githubusercontent.com/u/120078124?s=200&v=4"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}-${{ inputs.brand_name }}-${{ inputs.stream_name }}
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
   cancel-in-progress: true
 
 jobs:
-  build_push:
-    name: Build and push image
+  build_and_push:
     runs-on: ubuntu-24.04
-
     permissions:
       contents: read
       packages: write
@@ -34,16 +32,17 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@v4
 
       - name: Get current date
         id: date
         run: |
-          echo "date=$(date -u +%Y\-%m\-%d\T%H\:%M\:%S\Z)" >> $GITHUB_OUTPUT
+          echo "date=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_OUTPUT
 
-      - name: Image Metadata
-        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5
-        id: metadata
+      # ——— Main (leviathan) metadata —————————————————————
+      - name: Image Metadata (main)
+        id: meta_main
+        uses: docker/metadata-action@v5
         with:
           tags: |
             type=raw,value=latest
@@ -72,20 +71,44 @@ jobs:
           sep-tags: " "
           sep-annotations: " "
 
-      - name: Build Image
-        id: build_image
-        uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056 # v2
+      # ——— DX (leviathan-dx) metadata —————————————————————
+      - name: Image Metadata (dx)
+        id: meta_dx
+        uses: docker/metadata-action@v5
         with:
-          containerfiles: |
-            ./Containerfile
-          image: ${{ env.IMAGE_NAME }}
-          tags: ${{ steps.metadata.outputs.tags }}
-          labels: ${{ steps.metadata.outputs.labels }}
+          tags: |
+            type=raw,value=dx-latest
+            type=raw,value=dx-latest.{{date 'YYYYMMDD'}}
+            type=raw,value=dx-{{date 'YYYYMMDD'}}
+            type=sha,enable=${{ github.event_name == 'pull_request' }}
+            type=ref,event=pr
+          labels: ${{ steps.meta_main.outputs.labels }}
+          sep-tags: " "
+          sep-annotations: " "
+
+      - name: Build Leviathan (main)
+        uses: redhat-actions/buildah-build@v2
+        with:
+          containerfiles: Containerfile
+          target: leviathan
+          image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: ${{ steps.meta_main.outputs.tags }}
+          labels: ${{ steps.meta_main.outputs.labels }}
           oci: false
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+      - name: Build Leviathan-DX
+        uses: redhat-actions/buildah-build@v2
+        with:
+          containerfiles: Containerfile
+          target: leviathan-dx
+          image: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}-dx
+          tags: ${{ steps.meta_dx.outputs.tags }}
+          labels: ${{ steps.meta_dx.outputs.labels }}
+          oci: false
+
+      - name: Login to GHCR
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -93,39 +116,62 @@ jobs:
 
       - name: Lowercase Registry
         id: registry_case
-        uses: ASzc/change-string-case-action@d0603cd0a7dd490be678164909f65c7737470a7f # v6
+        uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ env.IMAGE_REGISTRY }}
 
-      - name: Lowercase Image
-        id: image_case
-        uses: ASzc/change-string-case-action@d0603cd0a7dd490be678164909f65c7737470a7f # v6
+      - name: Lowercase Image Name (main)
+        id: image_case_main
+        uses: ASzc/change-string-case-action@v6
         with:
           string: ${{ env.IMAGE_NAME }}
 
-      - name: Push To GHCR
-        uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c # v2
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
-        id: push
+      - name: Lowercase Image Name (dx)
+        id: image_case_dx
+        uses: ASzc/change-string-case-action@v6
+        with:
+          string: ${{ env.IMAGE_NAME }}-dx
+
+      - name: Push Leviathan (main)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: redhat-actions/push-to-registry@v2
         with:
           registry: ${{ steps.registry_case.outputs.lowercase }}
-          image: ${{ steps.image_case.outputs.lowercase }}
-          tags: ${{ steps.metadata.outputs.tags }}
+          image: ${{ steps.image_case_main.outputs.lowercase }}
+          tags: ${{ steps.meta_main.outputs.tags }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Push Leviathan-DX
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          registry: ${{ steps.registry_case.outputs.lowercase }}
+          image: ${{ steps.image_case_dx.outputs.lowercase }}
+          tags: ${{ steps.meta_dx.outputs.tags }}
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_PAT }}
 
       - name: Install Cosign
-        uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.8.1
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: sigstore/cosign-installer@v3
 
-      - name: Sign container image
-        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+      - name: Sign Leviathan (main)
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         run: |
-          IMAGE_FULL="${{ steps.registry_case.outputs.lowercase }}/${{ steps.image_case.outputs.lowercase }}"
-          for tag in ${{ steps.metadata.outputs.tags }}; do
-            cosign sign -y --key env://COSIGN_PRIVATE_KEY $IMAGE_FULL:$tag
+          FULL="${{ steps.registry_case.outputs.lowercase }}/${{ steps.image_case_main.outputs.lowercase }}"
+          for t in ${{ steps.meta_main.outputs.tags }}; do
+            cosign sign -y --key env://COSIGN_PRIVATE_KEY $FULL:$t
           done
         env:
-          TAGS: ${{ steps.push.outputs.digest }}
-          COSIGN_EXPERIMENTAL: false
+          COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}
+
+      - name: Sign Leviathan-DX
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        run: |
+          FULL="${{ steps.registry_case.outputs.lowercase }}/${{ steps.image_case_dx.outputs.lowercase }}"
+          for t in ${{ steps.meta_dx.outputs.tags }}; do
+            cosign sign -y --key env://COSIGN_PRIVATE_KEY $FULL:$t
+          done
+        env:
           COSIGN_PRIVATE_KEY: ${{ secrets.SIGNING_SECRET }}

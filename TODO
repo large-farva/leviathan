@@ -1,1 +1,17 @@
-TESTING
+# TESTING
+
+## Development
+- [ ] Build new Containerfile for both images
+- [ ] Fix build.yml to use the new Containerfile
+- [ ] Target 'shared' and specific 'build_files' for each image
+
+## Testing
+- [ ] Successful build
+
+## Done
+- [ ] Test both images
+- [ ] Merge to main branch
+- [ ] Update README with new image details
+
+## Post
+- [ ] Resume 'build_files' updates
