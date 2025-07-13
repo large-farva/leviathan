@@ -11,7 +11,7 @@ RUN --mount=type=bind,from=ctx,source=/build.sh,target=/ctx/build.sh,readonly \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    FLAVOR=main /ctx/build.sh && \
+    FLAVOR=leviathan /ctx/build.sh && \
     ostree container commit
 
 RUN bootc container lint
@@ -24,7 +24,7 @@ RUN --mount=type=bind,from=ctx,source=/build.sh,target=/ctx/build.sh,readonly \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
-    FLAVOR=dx /ctx/build.sh && \
+    FLAVOR=leviathan-dx /ctx/build.sh && \
     ostree container commit
 
 RUN bootc container lint
