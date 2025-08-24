@@ -8,9 +8,9 @@
 </div>
 
 # Leviathan
-**Leviathan** is a custom [Fedora Atomic](https://fedoraproject.org/atomic-desktops/) image built for personal use by my wife and I — optimized for **gaming**, **daily use**, and tailored **GNOME enhancements**.
+**Leviathan** is a custom [Fedora Atomic](https://fedoraproject.org/atomic-desktops/) image built for my wife — optimized for **gaming**, **daily use**, and tailored **GNOME enhancements**.
 
-This image is most likely not for many folks.
+This image is definitely not for everyone.
 
 ## Base System
 - Built on Fedora 42
