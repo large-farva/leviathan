@@ -2,8 +2,8 @@
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/large-farva/leviathan/refs/heads/main/theming/plymouth/watermark.png">
-    <img alt="Leviathan Logo" src="https://raw.githubusercontent.com/large-farva/leviathan/refs/heads/main/theming/plymouth/watermark.png" width="200">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/large-farva/leviathan/refs/heads/main/repo_files/watermark.png">
+    <img alt="Leviathan Logo" src="https://raw.githubusercontent.com/large-farva/leviathan/refs/heads/main/repo_files/watermark.png" width="200">
   </picture>
 </div>
 
@@ -14,13 +14,12 @@ This image is definitely not for everyone.
 
 ## Base System
 - Built on Fedora 42
-- Image built on **[Bazzite](https://bazzite.gg/)** (NVIDIA variant)
+- Image built on **[Bluefin](https://projectbluefin.io/)** (NVIDIA variant)
 - GNOME 48
 - Built using [uBlue's image-template](https://github.com/ublue-os/image-template)
 
 ## Features
 - Custom GNOME layout
-- Custom Theming
 - Pruned wallpapers, Flatpaks, RPM/DNF, and Gnome Extensions
 - Modular build scripts for easy tweaks
 
@@ -43,7 +42,7 @@ This swaps your OS in-place to the Leviathan container image.
 >
 > It would get stuck on a grey screen upon installation after the Anaconda installation selections. \
 > I tried to fix it, but it's just failing now. \
-> Just install Bazzite and rebase if you want to try it out.
+> Just install Bluefin and rebase if you want to try it out.
 
 Burn or boot from the [Leviathan ISO](https://github.com/large-farva/leviathan/actions/workflows/build_iso.yml) (see artifacts in workflow runs):
 - Fully graphical Anaconda installer
@@ -59,14 +58,14 @@ This repo uses **modular build** scripts:
 | `remove_packages.sh`      | Prune unwanted packages                         |
 | `remove_flatpaks.sh`      | Remove some default Flatpaks                    |
 | `remove_extensions.sh`    | Strip bundled GNOME Shell extensions            |
-| `install_packages.sh`     | Add some system packages                        |
-| `install_flatpaks.sh`     | Add a few Flatpaks my wife and I use            |
+| `install_packages.sh`     | Add steam                                       |
+| `install_flatpaks.sh`     | Add a few Flatpaks my wife uses                 |
 | `install_extensions.sh`   | Add preferred Gnome Shell extensions            |
-| `theming.sh`              | Deploy backgrounds, icons, GTK & Shell themes   |
+| `theming.sh`              | Deploy backgrounds                              |
 | `configure_os-release.sh` | Override `/etc/os-release` with custom branding |
 | `configure_plymouth.sh`   | Appy custom boot splash screen                  |
 | `configure_gdm.sh`        | Install GDM shell CSS & login background        |
-| `configure_dconf.sh`      | Set GNOME & GDM dconf defaults                  |
+| `configure_dconf.sh`      | Set dconf defaults                              |
 
 All organized inside the ```build_files/``` directory.
 

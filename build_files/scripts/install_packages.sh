@@ -2,4 +2,5 @@
 set -euxo pipefail
 
 dnf5 install -y \
-    sushi || true
+    steam \
+    gnome-software || true

@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euxo pipefail
 
-rm -rf /usr/share/plymouth/themes/charge
-
 : "${SRCROOT:?must be set}"
 
-install -Dm0644 \
-  "${SRCROOT}/theming/plymouth/watermark.png" \
-  /usr/share/plymouth/themes/spinner/watermark.png
+rm -rf /usr/share/plymouth/themes/charge
+
+install -d /usr/share/plymouth/themes/spinner_alt
+cp -r "${SRCROOT}/theming/plymouth/spinner_alt/"* /usr/share/plymouth/themes/spinner_alt/
+
+plymouth-set-default-theme -R spinner_alt

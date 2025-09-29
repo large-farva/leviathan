@@ -26,13 +26,9 @@ The main orchestrator is `build.sh`, which runs:
 | `install_packages.sh`    | Install system RPM packages                                             |
 | `install_flatpaks.sh`    | Install Flatpak applications                                            |
 | `install_extensions.sh`  | Install preferred GNOME Shell extensions                                |
-| `theming.sh`             | Install wallpapers, icon themes, and GTK/Shell themes                   |
+| `theming.sh`             | Install wallpapers and the **spinner_alt** plymouth theme               |
 | `configure_dconf.sh`     | Apply dconf defaults for GNOME desktop                                  |
 
-## Editing Tips
+## Credits
 
-- Add new packages to `install_packages.sh` or Flatpaks to `install_flatpaks.sh`  
-- Use `|| true` after removal lines to avoid failures if items don’t exist  
-- Place your theming assets in the `theming/` directory at the repo root under `wallpapers/`, `icons/`, and `themes/`  
-- Dconf profile settings need proper quoting for arrays and strings (e.g., `favorite-apps=['…']`)  
-- Always run `dconf update` after modifying files in `/etc/dconf/db/local.d/`  
+The **spinner_alt** plymouth theme was created by [adi1090x](https://github.com/adi1090x/plymouth-themes).

@@ -3,7 +3,7 @@ FROM scratch AS ctx
 COPY build_files/scripts    /scripts
 COPY theming                /theming
 
-FROM ghcr.io/ublue-os/bazzite-gnome-nvidia:latest AS leviathan
+FROM ghcr.io/ublue-os/bluefin-hwe-nvidia:latest AS leviathan
 
 RUN --mount=type=bind,from=ctx,source=/scripts,target=/ctx/scripts,readonly \
     --mount=type=bind,from=ctx,source=/theming,target=/theming,readonly \

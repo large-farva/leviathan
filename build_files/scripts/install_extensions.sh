@@ -2,5 +2,5 @@
 set -euxo pipefail
 
 dnf5 install -y \
-    gnome-shell-extension-dash-to-dock \
-    gnome-shell-extension-dash-to-panel || true
+    gnome-shell-extension-dash-to-panel \
+    gnome-shell-extension-arc-menu || true
