@@ -3,4 +3,5 @@ set -euxo pipefail
 
 dnf5 install -y \
     steam \
-    gnome-software || true
+    gnome-software \
+    plymouth-plugin-script || true
