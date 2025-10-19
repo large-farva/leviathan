@@ -3,12 +3,12 @@ set -euxo pipefail
 
 cat > /etc/os-release <<'EOF'
 NAME="Leviathan"
-VERSION="1.0"
+VERSION="1.2"
 ID=leviathan
 ID_LIKE="fedora"
 VERSION_ID=42
 VERSION_CODENAME="Good Boy"
-PRETTY_NAME="Leviathan 1.0 (FROM Fedora Silverblue)"
+PRETTY_NAME="Leviathan 1.2 (FROM Fedora Silverblue)"
 ANSI_COLOR="0;38;2;138;43;226"
 CPE_NAME="cpe:/o:leviathan:leviathan:1.0"
 PLATFORM_ID="platform:f42"

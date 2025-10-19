@@ -14,7 +14,7 @@ This image is definitely not for everyone.
 
 ## Base System
 - Built on Fedora 42
-- Image built on **[Bluefin](https://projectbluefin.io/)** (NVIDIA variant)
+- Image built on **[bluefin-hwe-nvidia](https://github.com/orgs/ublue-os/packages?repo_name=bluefin)
 - GNOME 48
 - Built using [uBlue's image-template](https://github.com/ublue-os/image-template)
 
@@ -79,7 +79,7 @@ Find [Leviathan](https://artifacthub.io/packages/search?repo=leviathan) on Artif
 ## Acknowledgments
 Leviathan is made possible by:
 - [Universal Blue Project](https://github.com/ublue-os)
-- [Bazzite](https://bazzite.gg/)
+- [Bluefin](https://projectbluefin.io/)
 
 
 README inspired by [AmyOS](https://github.com/astrovm/amyos/tree/main).
