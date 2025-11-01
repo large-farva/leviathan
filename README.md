@@ -14,7 +14,7 @@ This image is definitely not for everyone.
 
 ## Base System
 - Built on Fedora 42
-- Image built on **[bluefin-hwe-nvidia](https://github.com/orgs/ublue-os/packages?repo_name=bluefin)
+- Image built on **[bluefin-nvidia-open](https://github.com/orgs/ublue-os/packages?repo_name=bluefin)
 - GNOME 48
 - Built using [uBlue's image-template](https://github.com/ublue-os/image-template)
 
