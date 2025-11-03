@@ -95,7 +95,7 @@ jobs:
           additional-args: "--use-librepo=True --log-level debug"
 
       - name: Upload disk artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: disk-artifacts
           path: ${{ steps.build_qcow2.outputs.output-directory }}
